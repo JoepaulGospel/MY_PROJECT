@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IGOR | Professional Workspace</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root { --apple-bg: #f5f5f7; --apple-accent: #007aff; }
+.dark-mode { --apple-bg: #000000; --apple-accent: #0a84ff; }
+body { font-family: 'Inter', sans-serif; background-color: var(--apple-bg); transition: 0.3s; color: #1d1d1f; }
+.dark-mode body { color: #f5f5f7; }
+.glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: saturate(180%) blur(20px); }
+.dark-mode .glass { background: rgba(28, 28, 30, 0.8); }
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+.apple-card { background: white; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.03); }
+.dark-mode .apple-card { background: #1c1c1e; border: 1px solid rgba(255,255,255,0.05); }
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; display: none; z-index: 100; border-top: 1px solid rgba(0,0,0,0.05); }
+@media (max-width: 1024px) {
+.bottom-nav { display: flex; justify-content: space-around; align-items: center; }
+.sidebar { display: none; }
+.utility-tray { width: 100% !important; border-left: none !important; border-top: 1px solid rgba(0,0,0,0.05); }
+main { padding: 1.5rem !important; padding-bottom: 100px !important; }
+.layout-wrapper { flex-direction: column; }
+}
+.nav-btn.active { color: var(--apple-accent); }
+.storage-fill { height: 100%; background: var(--apple-accent); width: 45.2%; box-shadow: 0 0 10px rgba(0, 122, 255, 0.3); }
+</style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden">
+<div class="flex flex-1 overflow-hidden layout-wrapper">
+<!-- SIDEBAR -->
+<aside class="w-64 glass hidden lg:flex flex-col p-6 z-50 border-r border-black/5">
+<div class="flex items-center gap-3 mb-10">
+<div class="w-10 h-10 bg-black dark:bg-white dark:text-black rounded-2xl flex items-center justify-center text-white font-black italic shadow-xl">I</div>
+<h1 class="font-extrabold text-2xl tracking-tighter">IGOR</h1>
+</div>
+<nav class="space-y-1">
+<button onclick="switchTab('overview')" class="nav-btn-d w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[13px] font-bold transition-all active text-blue-600 bg-blue-50 dark:bg-blue-900/20" id="d-btn-overview"><i data-lucide="layout-grid" class="w-4 h-4"></i> Overview</button>
+<button onclick="switchTab('messages')" class="nav-btn-d w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[13px] font-bold transition-all text-zinc-400" id="d-btn-messages"><i data-lucide="mail" class="w-4 h-4"></i> Messages</button>
+<button onclick="switchTab('calls')" class="nav-btn-d w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[13px] font-bold transition-all text-zinc-400" id="d-btn-calls"><i data-lucide="phone-call" class="w-4 h-4"></i> Calls</button>
+<button onclick="switchTab('milestones')" class="nav-btn-d w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[13px] font-bold transition-all text-zinc-400" id="d-btn-milestones"><i data-lucide="check-square" class="w-4 h-4"></i> Milestones</button>
+<button onclick="switchTab('finance')" class="nav-btn-d w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[13px] font-bold transition-all text-zinc-400" id="d-btn-finance"><i data-lucide="credit-card" class="w-4 h-4"></i> Payments</button>
+</nav>
+<div class="mt-auto p-4 bg-black/5 dark:bg-white/5 rounded-2xl mb-4">
+<div class="flex justify-between text-[9px] font-black mb-2 opacity-40 uppercase"><span>Vault</span><span>45%</span></div>
+<div class="h-1 bg-black/5 dark:bg-white/10 rounded-full overflow-hidden"><div class="storage-fill"></div></div>
+</div>
+<div class="flex items-center gap-3 p-2 bg-white/50 dark:bg-zinc-900/50 rounded-2xl border border-black/5">
+<div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600"></div>
+<div><p class="text-[10px] font-bold">IGOR PRO</p></div>
+</div>
+</aside>
+<!-- MAIN -->
+<main class="flex-1 overflow-y-auto p-12">
+<div class="lg:hidden flex items-center justify-between mb-8">
+<div class="w-8 h-8 bg-black dark:bg-white dark:text-black rounded-lg flex items-center justify-center text-white font-black italic">I</div>
+<div id="m-clock" class="text-[11px] font-bold tabular-nums opacity-40">12:00:00 AM</div>
+<div class="w-8 h-8 rounded-full bg-blue-500 shadow-lg"></div>
+</div>
+<div id="overview" class="tab-content active">
+<h2 class="text-3xl lg:text-4xl font-black tracking-tighter mb-2">Workspace</h2>
+<p class="text-zinc-400 text-sm mb-8">System active & listening.</p>
+<div class="apple-card p-4 flex items-center justify-between border-l-4 border-orange-500">
+<div><p class="text-xs font-bold">Logo Deadline: 5PM</p><p class="text-[10px] text-zinc-400">Sarah Jenkins</p></div>
+<span class="text-[10px] font-black text-orange-500 uppercase tracking-widest">Alarm</span>
+</div>
+</div>
+<div id="messages" class="tab-content">
+<h2 class="text-3xl font-black tracking-tighter mb-8">Messages</h2>
+<div class="space-y-4">
+<div class="apple-card p-5 border-l-4 border-blue-500">
+<p class="text-[10px] font-black text-blue-500 uppercase mb-1">Sarah Jenkins</p>
+<p class="text-sm font-medium">Ready for the portal testing?</p>
+</div>
+</div>
+</div>
+<div id="calls" class="tab-content">
+<h2 class="text-3xl font-black tracking-tighter mb-8">Secure Calls</h2>
+<div class="apple-card p-10 text-center">
+<i data-lucide="video" class="w-10 h-10 mx-auto mb-4 opacity-20"></i>
+<button class="bg-black dark:bg-white dark:text-black text-white px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest">Join Call</button>
+</div>
+</div>
+<div id="milestones" class="tab-content">
+<h2 class="text-3xl font-black tracking-tighter mb-8">Milestones</h2>
+<div class="apple-card p-5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-green-500/10 text-green-600 flex items-center justify-center text-xs font-black">01</div>
+<p class="text-sm font-bold">Research Phase</p>
+</div>
+<i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+</div>
+</div>
+<div id="finance" class="tab-content">
+<h2 class="text-3xl font-black tracking-tighter mb-8">Journal</h2>
+<div class="apple-card overflow-hidden">
+<div class="p-5 border-b border-black/5 flex justify-between items-center">
+<div><p class="text-sm font-bold">Sarah Jenkins</p><p class="text-[10px] text-zinc-400">$2,450.00</p></div>
+<button onclick="generateInvoice('Sarah J', 'IGOR User', '2,450.00')" class="text-blue-500 font-bold text-xs uppercase">Receipt</button>
+</div>
+</div>
+</div>
+</main>
+<!-- UTILITY TRAY -->
+<aside class="utility-tray w-[320px] hidden lg:flex flex-col p-6 glass border-l border-black/5">
+<div class="bg-black dark:bg-white text-white dark:text-black p-6 rounded-[2.5rem] shadow-xl mb-6">
+<p class="text-[9px] font-black uppercase tracking-widest mb-4 opacity-50 text-center">Work Timer</p>
+<div id="timer-display" class="text-4xl font-black tabular-nums mb-6 text-center">00:00:00</div>
+<button onclick="toggleTimer()" id="timer-btn" class="w-full py-3 bg-blue-600 rounded-2xl text-xs font-bold text-white">Start</button>
+</div>
+<!-- CLOCK RE-ADDED -->
+<div class="mb-6 px-6 py-3 bg-zinc-200/50 dark:bg-zinc-800/50 rounded-2xl flex justify-between items-center">
+<span class="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Local Clock</span>
+<span id="d-clock" class="text-xs font-bold tabular-nums">12:00:00 AM</span>
+</div>
+<div class="flex-1 bg-white dark:bg-zinc-900 rounded-[2rem] p-6 shadow-sm border border-black/5 overflow-hidden">
+<p class="text-[10px] font-black uppercase opacity-30 mb-4">Quick Notes</p>
+<textarea class="w-full h-full bg-transparent resize-none outline-none text-xs font-medium leading-relaxed" placeholder="Write here..."></textarea>
+</div>
+</aside>
+</div>
+<nav class="bottom-nav glass">
+<button onclick="switchTab('overview')" class="nav-btn flex flex-col items-center gap-1 active" id="m-btn-overview"><i data-lucide="layout-grid" class="w-5 h-5"></i><span class="text-[9px] font-bold">Home</span></button>
+<button onclick="switchTab('messages')" class="nav-btn flex flex-col items-center gap-1 text-zinc-400" id="m-btn-messages"><i data-lucide="mail" class="w-5 h-5"></i><span class="text-[9px] font-bold">Chat</span></button>
+<button onclick="switchTab('calls')" class="nav-btn flex flex-col items-center gap-1 text-zinc-400" id="m-btn-calls"><i data-lucide="phone-call" class="w-5 h-5"></i><span class="text-[9px] font-bold">Calls</span></button>
+<button onclick="switchTab('milestones')" class="nav-btn flex flex-col items-center gap-1 text-zinc-400" id="m-btn-milestones"><i data-lucide="check-square" class="w-5 h-5"></i><span class="text-[9px] font-bold">Steps</span></button>
+<button onclick="switchTab('finance')" class="nav-btn flex flex-col items-center gap-1 text-zinc-400" id="m-btn-finance"><i data-lucide="credit-card" class="w-5 h-5"></i><span class="text-[9px] font-bold">Pay</span></button>
+</nav>
+<script>
+function switchTab(id) {
+document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+const btns = [...document.querySelectorAll('.nav-btn'), ...document.querySelectorAll('.nav-btn-d')];
+btns.forEach(b => {
+b.classList.remove('active', 'text-blue-600', 'bg-blue-50', 'dark:bg-blue-900/20');
+b.classList.add('text-zinc-400');
+});
+const activeM = document.getElementById(`m-btn-${id}`);
+const activeD = document.getElementById(`d-btn-${id}`);
+if(activeM) activeM.classList.add('active', 'text-blue-600');
+if(activeD) activeD.classList.add('active', 'text-blue-600', 'bg-blue-50', 'dark:bg-blue-900/20');
+}
+let seconds = 0, timerInterval = null;
+function toggleTimer() {
+if(timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+else {
+timerInterval = setInterval(() => {
+seconds++;
+let h = Math.floor(seconds/3600), m = Math.floor((seconds%3600)/60), s = seconds%60;
+let str = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+document.getElementById('timer-display').innerText = str;
+}, 1000);
+}
+}
+// CLOCK LOGIC
+setInterval(() => {
+const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+if(document.getElementById('d-clock')) document.getElementById('d-clock').innerText = time;
+if(document.getElementById('m-clock')) document.getElementById('m-clock').innerText = time;
+}, 1000);
+function generateInvoice(c, f, a) {
+const win = window.open('', '_blank');
+win.document.write(`<div style="font-family:sans-serif;padding:40px;"><h1>Receipt</h1><hr><p><b>Client:</b> ${c}</p><p><b>Amount:</b> $${a}</p></div>`);
+win.print();
+}
+lucide.createIcons();
+</script>
+</body>
+</html>
