@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white flex items-center justify-center h-screen font-sans">
+ <h1 class="text-6xl font-black italic tracking-tighter">MERK DEPLOYED</h1>
+</body>
+</html>
